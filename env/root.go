@@ -17,7 +17,8 @@ type Env struct {
 
 	Node struct {
 		Dial       string
-		StartBlock int64
+		StartBlock uint64
+		EndBlock   uint64
 	}
 }
 
