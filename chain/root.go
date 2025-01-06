@@ -30,11 +30,10 @@ type Chain struct {
 func ScanBlock(env *env.Env, repo *repo.Repo, startBlock, endBlock uint64) {
 	c := &Chain{env: env, repo: repo}
 
-	var err error
-
-	if c.chainID = c.getChainID(); err != nil {
-		panic(err)
+	if chainID := c.getChainID(); chainID == big.NewInt(0) {
+		log.Println("Failed To ScanBlock")
 	} else {
+		c.chainID = chainID
 		c.signer = types.NewEIP155Signer(c.chainID)
 		c.scanBlock(startBlock, endBlock)
 	}

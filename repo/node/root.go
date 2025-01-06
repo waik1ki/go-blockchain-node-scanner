@@ -58,7 +58,7 @@ func (n *Node) GetLatestBlock() uint64 {
 func (n *Node) GetBlockByNumber(number *big.Int) *types.Block {
 	if res, err := n.client.BlockByNumber(Context(), number); err != nil {
 		log.Println(err)
-		return &types.Block{}
+		return nil
 	} else {
 		return res
 	}
