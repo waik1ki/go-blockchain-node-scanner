@@ -1,6 +1,7 @@
 package app
 
 import (
+	"go-blockchain-scope/chain"
 	"go-blockchain-scope/env"
 	"go-blockchain-scope/repo"
 )
@@ -19,6 +20,7 @@ func NewApp(env *env.Env) {
 	if a.repo, err = repo.NewRepo(env); err != nil {
 		panic(err)
 	} else {
+		chain.ScanBlock(env, a.repo, env.Node.StartBlock, env.Node.EndBlock)
 
 	}
 }
