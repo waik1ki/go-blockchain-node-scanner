@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/big"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
@@ -21,6 +22,7 @@ type NodeImpl interface {
 	GetClient() *ethclient.Client
 	GetBlockByNumber(number *big.Int) *types.Block
 	GetLatestBlock() uint64
+	GetReceiptByHash(hash common.Hash) *types.Receipt
 }
 
 func NewNode(env *env.Env) (NodeImpl, error) {
@@ -32,6 +34,15 @@ func NewNode(env *env.Env) (NodeImpl, error) {
 		panic(err)
 	} else {
 		return n, nil
+	}
+}
+
+func (n *Node) GetReceiptByHash(hash common.Hash) *types.Receipt {
+	if res, err := n.client.TransactionReceipt(Context(), hash); err != nil {
+		log.Println(err)
+		return nil
+	} else {
+		return res
 	}
 }
 
