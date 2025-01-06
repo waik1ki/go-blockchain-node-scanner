@@ -3,13 +3,19 @@ package chain
 import (
 	"go-blockchain-scope/env"
 	"go-blockchain-scope/repo"
+	. "go-blockchain-scope/types"
+	"go-blockchain-scope/utils"
 	"log"
 	"math/big"
 	"sync/atomic"
 	"time"
 
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Chain struct {
@@ -78,11 +84,46 @@ func (c *Chain) readBlock(start, end uint64) {
 }
 
 func (c *Chain) saveBlock(block *types.Block) {
-
+	if err := c.repo.DB.SaveBlock(MakeCustomBlock(block, c.chainID.Int64())); err != nil {
+		log.Println("Failed To Save Block", block.Hash())
+	}
 }
 
-func (c *Chain) saveTx(block *types.Block, len int, header *types.Header) {
+func (c *Chain) saveTx(block *types.Block, length int, header *types.Header) {
+	var writeModel []mongo.WriteModel
 
+	for j := 0; j < length; j++ {
+		tx := block.Transactions()[j]
+
+		if receipt := c.getReceipt(tx.Hash()); receipt == nil {
+			log.Println("Failed To get Tx Receipt", tx.Hash())
+			continue
+		} else {
+			customTx := MakeCustomTx(tx, receipt, header, c.signer)
+
+			if json, err := utils.ToJson(customTx); err != nil {
+				log.Println("Failed ToJson", tx.Hash())
+				continue
+			} else {
+				writeModel = append(
+					writeModel,
+					mongo.NewUpdateOneModel().SetUpsert(true).
+						SetFilter(bson.M{"tx": hexutil.Encode(customTx.Tx[:])}).
+						SetUpdate(bson.M{"$set": json}),
+				)
+			}
+		}
+	}
+
+	if len(writeModel) != 0 {
+		if err := c.repo.DB.SaveTxByBulk(writeModel); err != nil {
+			log.Println("Failed To Save Txs", block.Hash())
+		}
+	}
+}
+
+func (c *Chain) getReceipt(hash common.Hash) *types.Receipt {
+	return c.repo.Node.GetReceiptByHash(hash)
 }
 
 func (c *Chain) getChainID() *big.Int {
