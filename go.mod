@@ -1,4 +1,4 @@
-module go-blockchain-scope
+module go-blockchain-node-scanner
 
 go 1.23.4
 

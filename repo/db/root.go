@@ -1,11 +1,11 @@
 package db
 
 import (
-	"go-blockchain-scope/env"
-	"go-blockchain-scope/types"
+	"go-blockchain-node-scanner/env"
+	"go-blockchain-node-scanner/types"
 	"log"
 
-	. "go-blockchain-scope/utils"
+	. "go-blockchain-node-scanner/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

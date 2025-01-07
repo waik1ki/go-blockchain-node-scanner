@@ -1,8 +1,8 @@
 package node
 
 import (
-	"go-blockchain-scope/env"
-	. "go-blockchain-scope/utils"
+	"go-blockchain-node-scanner/env"
+	. "go-blockchain-node-scanner/utils"
 	"log"
 	"math/big"
 

@@ -1,10 +1,10 @@
 package chain
 
 import (
-	"go-blockchain-scope/env"
-	"go-blockchain-scope/repo"
-	. "go-blockchain-scope/types"
-	"go-blockchain-scope/utils"
+	"go-blockchain-node-scanner/env"
+	"go-blockchain-node-scanner/repo"
+	. "go-blockchain-node-scanner/types"
+	"go-blockchain-node-scanner/utils"
 	"log"
 	"math/big"
 	"sync/atomic"

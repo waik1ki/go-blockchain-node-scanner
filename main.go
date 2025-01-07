@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"go-blockchain-scope/app"
-	"go-blockchain-scope/env"
+	"go-blockchain-node-scanner/app"
+	"go-blockchain-node-scanner/env"
 )
 
 var envFlag = flag.String("env", "./env.toml", "env not found")

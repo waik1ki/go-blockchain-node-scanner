@@ -1,9 +1,9 @@
 package app
 
 import (
-	"go-blockchain-scope/chain"
-	"go-blockchain-scope/env"
-	"go-blockchain-scope/repo"
+	"go-blockchain-node-scanner/chain"
+	"go-blockchain-node-scanner/env"
+	"go-blockchain-node-scanner/repo"
 )
 
 type App struct {

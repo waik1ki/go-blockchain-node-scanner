@@ -1,9 +1,9 @@
 package repo
 
 import (
-	"go-blockchain-scope/env"
-	"go-blockchain-scope/repo/db"
-	"go-blockchain-scope/repo/node"
+	"go-blockchain-node-scanner/env"
+	"go-blockchain-node-scanner/repo/db"
+	"go-blockchain-node-scanner/repo/node"
 )
 
 type Repo struct {
